@@ -41,11 +41,22 @@ app.post('/email_post',(req,res)=>{
 });
 
 app.post('/ajax_send_email',(req,res)=>{
-
     //check validation about input value
+    var email = req.body.email;
+    var responseData = {};
 
-    var responseData = { 'result' : 'ok' , 'email' : req.body.email }
-    res.json(responseData)
+    var query = connection.query('select name from user where email="' + email +'"', (err,rows)=>{
+        if(err) throw err;
+        if(rows[0]){
+            responseData.result = "ok";
+            responseData.name = rows[0].name;
+        } else{
+            responseData.result= "none";
+            responseData.name = "";
+        }
+        res.json(responseData)
+    })
+
 })
 
 

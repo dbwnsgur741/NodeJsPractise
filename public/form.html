@@ -29,8 +29,16 @@
             xhr.setRequestHeader('Content-Type', "application/json"); // json 형태 데이터를 보냄
             xhr.send(data);
             xhr.addEventListener('load',()=>{
+
                 var result = JSON.parse(xhr.responseText);
-                document.querySelector('.result').innerHTML = result.email;
+                var resultDiv = document.querySelector('.result');
+
+                if(result.result !== 'ok'){
+                    resultDiv.innerHTML = "your email is not found";
+                }
+                else{
+                    resultDiv.innerHTML = result.name;
+                }
             });
         }
     </script>
