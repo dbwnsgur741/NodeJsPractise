@@ -2,7 +2,16 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
 
+const mysql = require('mysql')
+const connection = mysql.createConnection({
+    host: 'localhost',
+    prot: 3306,
+    user: 'root',
+    password: '1234',
+    database: 'nodedb'
+})
 
+connection.connect()
 
 // 정적인 파일들이 있는 곳을 지정해줌 express.static ( .js / .css 등등 )
 app.use(express.static('public'))
@@ -38,3 +47,5 @@ app.post('/ajax_send_email',(req,res)=>{
     var responseData = { 'result' : 'ok' , 'email' : req.body.email }
     res.json(responseData)
 })
+
+
