@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title> EMAIL FORM </title>
     <body>
-        <form action="/email_post" method="post">
+        <form action="/email/form" method="post">
             email : <input type="text" name="email"><br/>
             <button type="submit">제출하기</button>
         </form>
@@ -18,7 +18,7 @@
 
             var inputdata = document.forms[0].elements[0].value;
 
-            sendAjax('http://18.191.214.175:3000/ajax_send_email', inputdata);
+            sendAjax('http://18.191.214.175:3000/email/ajax', inputdata);
         })
 
         function sendAjax(url,data) {
