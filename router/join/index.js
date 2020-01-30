@@ -4,7 +4,7 @@ var router = express.Router()
 var path = require('path')
 var mysql = require('mysql')
 var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy
 
 // DB 연결부분
 
@@ -19,16 +19,52 @@ const connection = mysql.createConnection({
 connection.connect()
 
 router.get('/', (req, res) => {
-    res.render('join.ejs');
+    var msg;
+    var errMsg = req.flash('error') // flash 모듈로 error 넘기고 받을 수 있다.
+    if(errMsg){
+        msg = errMsg;
+    }
+
+    res.render('join.ejs', {'message' : msg});
 })
 
+//passport.serialize()
+
+// passport 'local-join' 이라는 새로운 LocalStrategy 사용
 passport.use('local-join', new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password',
+    passwordField: 'pw',
     passReqToCallback: true
 }, function (req, email, pw, done) {
-    console.log('local-join callback called');
-}))
+    var query = connection.query('select * from user where email=?', [email],(err,rows)=>{
+        if(err){
+            return done(err);
+        }
+
+        if(rows.length){
+            console.log('existed user');
+            return done(null, false, { message: 'your email is alerady used '})
+        }else{
+            var sql = { email: email, pw: pw };
+            var query = connection.query('insert into user set ?', sql , (err,rows)=>{
+                if(err){
+                    throw err;
+                }else{
+                    return done(null, {'email' : email , 'id': rows.insertId });
+                }
+            })
+        }
+    })
+}));
+
+router.post('/',
+    passport.authenticate('local-join',
+        {
+            successRedirect: '/main',
+            failureRedirect: '/join',
+            failureFlash: true
+        })
+);
 
 // router.post('/', (req, res) => {
 //     var body = req.body;

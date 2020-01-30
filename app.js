@@ -3,9 +3,9 @@ var bodyParser = require('body-parser')
 var app = express()
 var router = require('./router/index')
 var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session')
+var session = require('express-session') // 일반적인 세션
 var flash = require('connect-flash')
+var LocalStrategy = require('passport-local').Strategy;
 
 // 정적인 파일들이 있는 곳을 지정해줌 express.static ( .js / .css 등등 )
 // app.listen(3000,function(){
@@ -20,6 +20,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.set('view engine','ejs') // ejs모듈 씀
 
+// 세션 사용
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
