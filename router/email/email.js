@@ -27,19 +27,25 @@ router.post('/form', (req, res) => {
 router.post('/ajax', (req, res) => {
     //check validation about input value
     var email = req.body.email;
+    var password = req.body.password;
     var responseData = {};
+    responseData.result = "ok";
+    responseData.email = email ;
+    responseData.password = password;
 
-    var query = connection.query('select name from user where email="' + email + '"', (err, rows) => {
-        if (err) throw err;
-        if (rows[0]) {
-            responseData.result = "ok";
-            responseData.name = rows[0].name;
-        } else {
-            responseData.result = "none";
-            responseData.name = "";
-        }
-        res.json(responseData)
-    });
+    res.json(responseData);
+
+    // var query = connection.query('select name from user where email="' + email + '"', (err, rows) => {
+    //     if (err) throw err;
+    //     if (rows[0]) {
+    //         responseData.result = "ok";
+    //         responseData.name = rows[0].name;
+    //     } else {
+    //         responseData.result = "none";
+    //         responseData.name = "";
+    //     }
+    //     res.json(responseData)
+    // });
 })
 
 module.exports = router;

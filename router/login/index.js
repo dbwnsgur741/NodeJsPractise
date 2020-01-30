@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
         msg = errMsg;
     }
 
-    res.render('join.ejs', {'message' : msg});
+    res.render('login.ejs', {'message' : msg});
 })
 
 // 세션에 있는 값을 뽑아서 전달 ..
@@ -40,8 +40,8 @@ passport.deserializeUser((id,done)=>{
 })
 
 
-// passport 'local-join' 이라는 새로운 LocalStrategy 사용
-passport.use('local-join', new LocalStrategy({
+// passport 'local-login' 이라는 새로운 LocalStrategy 사용
+passport.use('local-login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'pw',
     passReqToCallback: true
@@ -68,7 +68,7 @@ passport.use('local-join', new LocalStrategy({
 }));
 
 router.post('/',
-    passport.authenticate('local-join',
+    passport.authenticate('local-login',
         {
             successRedirect: '/main',
             failureRedirect: '/join',
