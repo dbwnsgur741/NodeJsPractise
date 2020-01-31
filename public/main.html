@@ -12,6 +12,46 @@
 <h1> Main Page 입니다.</h1>
 <p> ㅇㅁㄹㄴㅇㅁㄹㅇㄴㄹㄴㅁㄹㄴㅁㄹ</p>
 <img src="images/img1.jpg" style="width: 300px; height: 300px;">
+
+<fb:login-button
+        scope="public_profile,email"
+        onlogin="checkLoginState();">
+</fb:login-button>
 <script src="main.js"></script>
 </body>
+
+<script>
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+            console.log( 'checkLoginState : ' + response)
+        });
+    }
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '217523182744685',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v5.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+        console.log(' getLoginStatus : ' + response);
+    });
+</script>
+
 </html>
